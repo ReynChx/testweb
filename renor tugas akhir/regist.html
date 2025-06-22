@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Register - Zero Breakfast</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&family=Poppins:wght@300;400&display=swap"
+  rel="stylesheet"
+/>
+<script src="https://unpkg.com/feather-icons"></script>
+<style>
+  :root {
+    --color-bg: #ffffff;
+    --color-text: #374151; /* neutral dark gray */
+    --color-text-muted: #6b7280;
+    --color-primary: #db2777; /* pink-600 */
+    --color-primary-dark: #be185d; /* darker pink */
+    --color-input-bg: #f9fafb;
+    --color-input-border: #d1d5db;
+    --radius: 0.75rem;
+    --shadow: 0 10px 15px -3px rgba(219,39,119,0.15), 0 4px 6px -2px rgba(219,39,119,0.1);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 1rem;
+  }
+
+  .register-container {
+    background: var(--color-bg);
+    max-width: 400px;
+    width: 100%;
+    padding: 2.5rem 2rem 3rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    text-align: center;
+  }
+
+  .register-container h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--color-primary);
+  }
+
+  .register-container p {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    margin-bottom: 2rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .input-group {
+    position: relative;
+  }
+
+  .input-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-muted);
+    stroke-width: 1.5;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 0.75rem 0.75rem 0.75rem 2.75rem;
+    border: 1.5px solid var(--color-input-border);
+    border-radius: var(--radius);
+    font-size: 1rem;
+    font-weight: 400;
+    transition: var(--transition);
+    background-color: var(--color-input-bg);
+    color: var(--color-text);
+  }
+
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  input[type="password"]:focus {
+    border-color: var(--color-primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(219,39,119,0.25);
+  }
+
+  button.register-btn {
+    background-color: var(--color-primary);
+    color: white;
+    font-weight: 700;
+    font-size: 1.125rem;
+    border: none;
+    border-radius: var(--radius);
+    padding: 0.75rem;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+
+  button.register-btn:hover,
+  button.register-btn:focus {
+    background-color: var(--color-primary-dark);
+    outline: none;
+  }
+
+  .login-prompt {
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+  }
+
+  .login-prompt a {
+    color: var(--color-primary);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+  }
+
+  .login-prompt a:hover,
+  .login-prompt a:focus {
+    color: var(--color-primary-dark);
+    text-decoration: underline;
+  }
+
+  @media (max-width: 480px) {
+    .register-container {
+      padding: 2rem 1rem 2.5rem;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="register-container" role="main" aria-label="Register Form">
+    <h1>Daftar Akun</h1>
+    <p>Isi formulir di bawah untuk membuat akun baru di Zero Breakfast</p>
+    <form id="registerForm" aria-describedby="register-desc">
+      <div class="input-group">
+        <i data-feather="user" class="input-icon" aria-hidden="true"></i>
+        <input type="text" id="username" name="username" placeholder="Username" required autocomplete="username" aria-label="Username" />
+      </div>
+      <div class="input-group">
+        <i data-feather="mail" class="input-icon" aria-hidden="true"></i>
+        <input type="email" id="email" name="email" placeholder="Email" required autocomplete="email" aria-label="Email" />
+      </div>
+      <div class="input-group">
+        <i data-feather="lock" class="input-icon" aria-hidden="true"></i>
+        <input type="password" id="password" name="password" placeholder="Kata Sandi" required autocomplete="new-password" aria-label="Password" minlength="6" />
+      </div>
+      <div class="input-group">
+        <i data-feather="lock" class="input-icon" aria-hidden="true"></i>
+        <input type="password" id="passwordConfirm" name="passwordConfirm" placeholder="Konfirmasi Kata Sandi" required autocomplete="new-password" aria-label="Confirm Password" minlength="6" />
+      </div>
+      <button type="submit" class="register-btn">Daftar</button>
+    </form>
+    <div class="login-prompt">
+      Sudah punya akun? <a href="login.html" tabindex="0">Masuk di sini</a>
+    </div>
+  </main>
+
+<script>
+  feather.replace();
+  const form = document.getElementById('registerForm');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const password = form.password.value.trim();
+    const confirm = form.passwordConfirm.value.trim();
+    if (password !== confirm) {
+      alert('Kata sandi dan konfirmasi tidak sama. Silakan coba lagi.');
+      return;
+    }
+    // Simulate successful registration
+    window.location.href = 'login.html';
+  });
+</script>
+</body>
+</html>
