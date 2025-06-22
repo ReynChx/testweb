@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Menu & Keranjang - Zero Breakfast</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@300;400&display=swap"
+  rel="stylesheet"
+/>
+<style>
+  :root {
+    --color-bg: #e9e9e9;
+    --color-text-primary: #2a2a2a;
+    --color-text-secondary: #2a2a2a;
+    --color-accent: #db2777;
+    --color-accent-hover: #be185d;
+    --radius: 0.75rem;
+    --shadow: 0 4px 10px rgba(0,0,0,0.05);
+    --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    line-height: 1.5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  header {
+    position: sticky;
+    top: 0;
+    background: var(--color-bg);
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--color-text-primary);
+    text-decoration: none;
+  }
+
+  nav a {
+    margin-left: 1.75rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: color var(--transition);
+  }
+  nav a:hover,
+  nav a:focus {
+    color: var(--color-accent);
+    outline: none;
+  }
+  nav a[aria-current="page"] {
+    font-weight: 700;
+    color: var(--color-accent);
+  }
+
+  main.container {
+    max-width: 1200px;
+    margin: 2rem auto 3rem;
+    padding: 0 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+
+  /* Product Etalase Grid */
+  section.product-etalase {
+    flex: 2 1 700px;
+  }
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.75rem;
+  }
+
+  .product-card {
+    background: var(--color-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.3s ease;
+  }
+  .product-card:hover,
+  .product-card:focus-within {
+    box-shadow: 0 8px 20px rgba(219,39,119,0.25);
+    outline: none;
+  }
+  .product-card img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  .product-details {
+    padding: 1rem 1.25rem 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .product-name {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.125rem;
+    margin: 0 0 0.5rem 0;
+    color: var(--color-text-primary);
+  }
+  .product-price {
+    font-weight: 600;
+    color: var(--color-accent);
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+  }
+  button.add-to-cart {
+    margin-top: auto;
+    background-color: var(--color-accent);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    padding: 0.75rem;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color var(--transition);
+  }
+  button.add-to-cart:focus,
+  button.add-to-cart:hover {
+    background-color: var(--color-accent-hover);
+    outline: none;
+  }
+
+  /* Cart Section */
+  section.cart-summary {
+    flex: 1 1 400px;
+    min-width: 320px;
+    background: #f9fafb;
+    padding: 2rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+  }
+
+  section.cart-summary h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-bottom: 1.25rem;
+    color: var(--color-text-primary);
+    border-bottom: 2px solid var(--color-accent);
+    padding-bottom: 0.25rem;
+  }
+
+  .cart-empty-msg {
+    text-align: center;
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    margin-top: 3rem;
+    user-select: none;
+  }
+
+  .cart-item-list {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    max-height: 400px;
+    margin-bottom: 1.5rem;
+  }
+
+  article.cart-item {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e5e7eb;
+    align-items: center;
+  }
+  article.cart-item:last-child {
+    margin-bottom: 0;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .cart-item-img {
+    flex-shrink: 0;
+    width: 90px;
+    height: 90px;
+    border-radius: var(--radius);
+    object-fit: cover;
+    box-shadow: var(--shadow);
+  }
+  .cart-item-details {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .cart-item-name {
+    font-weight: 600;
+    font-size: 1.125rem;
+    margin: 0 0 0.25rem 0;
+    color: var(--color-text-primary);
+  }
+  .cart-item-price {
+    color: var(--color-text-secondary);
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .quantity-control {
+    display: flex;
+    align-items: center;
+    border: 1.5px solid #d1d5db;
+    border-radius: var(--radius);
+    overflow: hidden;
+    width: 115px;
+  }
+
+  button.quantity-btn {
+    background-color: transparent;
+    border: none;
+    font-size: 1.5rem;
+    padding: 0 0.75rem;
+    cursor: pointer;
+    color: var(--color-accent);
+    font-weight: 700;
+    transition: color var(--transition);
+  }
+  button.quantity-btn:hover,
+  button.quantity-btn:focus {
+    color: var(--color-accent-hover);
+    outline: none;
+  }
+
+  input.quantity-input {
+    width: 40px;
+    border: none;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    padding: 0.25rem 0;
+  }
+  input.quantity-input:focus {
+    outline: none;
+  }
+
+  .cart-item-total {
+    font-weight: 700;
+    font-size: 1.125rem;
+    color: var(--color-accent);
+    min-width: 100px;
+    text-align: right;
+  }
+
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+  .summary-row .label {
+    color: var(--color-text-secondary);
+  }
+
+  button.checkout-btn {
+    width: 100%;
+    background-color: var(--color-accent);
+    border: none;
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 700;
+    padding: 1rem;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background-color var(--transition);
+  }
+  button.checkout-btn:hover,
+  button.checkout-btn:focus {
+    background-color: var(--color-accent-hover);
+    outline: none;
+  }
+
+  /* Floating cart icon/button top right */
+  #cart-icon {
+    position: fixed;
+    top: 1.25rem;
+    right: 1.25rem;
+    background-color: var(--color-accent);
+    border-radius: 50%;
+    width: 47px;
+    height: 47px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: 700;
+    font-size: 1.125rem;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: background-color var(--transition);
+    z-index: 100;
+  }
+  #cart-icon:hover,
+  #cart-icon:focus {
+    background-color: var(--color-accent-hover);
+    outline: none;
+  }
+  #cart-count {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: #fff;
+    color: var(--color-accent);
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 3px rgba(0,0,0,0.15);
+  }
+
+  @media (max-width: 768px) {
+    main.container {
+      flex-direction: column;
+    }
+    section.cart-summary {
+      width: 100%;
+      margin-top: 2rem;
+      max-height: none;
+    }
+    section.product-etalase {
+      width: 100%;
+    }
+    .cart-item-list {
+      max-height: none;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo" aria-label="Zero Breakfast homepage">ZeroBreakfast</a>
+  <nav aria-label="Primary navigation">
+    <a href="index.html">Home</a>
+    <a href="index.html" aria-current="page">M</a>
+  </nav>
+</header>
+
+<main class="container" role="main">
+
+  <section class="product-etalase" aria-label="Etalase Produk Makanan">
+    <h1>Menu Kami</h1>
+    <div class="product-grid" id="product-grid">
+      <!-- Product cards inserted by JS -->
+    </div>
+  </section>
+
+  <section class="cart-summary" aria-label="Ringkasan Keranjang Belanja">
+    <h2>Keranjang Belanja</h2>
+    <div id="cart-empty-msg" class="cart-empty-msg"></div>
+    <div class="cart-item-list" id="cart-item-list" tabindex="0" aria-live="polite" aria-atomic="true" style="display:none;">
+      <!-- Cart items inserted by JS -->
+    </div>
+    <div id="order-summary" style="display:none;">
+      <div class="summary-row">
+        <span class="label">Subtotal</span>
+        <span id="subtotal">IDR 0</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">Pajak (10%)</span>
+        <span id="tax">IDR 0</span>
+      </div>
+      <div class="summary-row" style="font-size:1.25rem; font-weight:800; border-top: 2px solid var(--color-accent); padding-top: 0.5rem;">
+        <span>Total</span>
+        <span id="total">IDR 0</span>
+      </div>
+      <button id="checkout-btn" class="checkout-btn" aria-label="Checkout pesanan">Checkout</button>
+    </div>
+  </section>
+
+</main>
+
+<div id="cart-icon" role="button" tabindex="0" aria-label="Lihat keranjang belanja">
+  🛒
+  <div id="cart-count" aria-live="polite" aria-atomic="true" style="display:none;">0</div>
+</div>
+
+<script>
+  const menuItems = [
+    { id: 1, name: "Salad Buah", price: 26000, imgSrc: "sld.png", alt: "Salad Buah" },
+    { id: 2, name: "Strawberry Oatmeal", price: 46000, imgSrc: "str.png", alt: "Strawberry Oatmeal" },
+    { id: 3, name: "Avocado Toast", price: 23000, imgSrc: "avc.png", alt: "Avocado Toast" },
+    { id: 4, name: "Quinoa Breakfeast", price: 25000, imgSrc: "ric.png", alt: "Quinoa Breakfeast" },
+    { id: 5, name: "Egg Muffins", price: 17000, imgSrc: "mfn.png", alt: "Egg Muffins" },
+    { id: 6, name: "Chia Seed Pudding", price: 15000, imgSrc: "chi.png", alt: "Chia Seed Pudding" },
+  ];
+
+  // Cart data stored in-memory
+  let cart = [];
+
+  // DOM elements
+  const productGrid = document.getElementById('product-grid');
+  const cartIcon = document.getElementById('cart-icon');
+  const cartCount = document.getElementById('cart-count');
+  const cartEmptyMsg = document.getElementById('cart-empty-msg');
+  const cartItemList = document.getElementById('cart-item-list');
+  const orderSummary = document.getElementById('order-summary');
+  const subtotalEl = document.getElementById('subtotal');
+  const taxEl = document.getElementById('tax');
+  const totalEl = document.getElementById('total');
+  const checkoutBtn = document.getElementById('checkout-btn');
+
+  // Format number to IDR string
+  function formatIDR(number) {
+    return 'IDR ' + number.toLocaleString('id-ID');
+  }
+
+  // Render product cards
+  function renderProducts() {
+    productGrid.innerHTML = '';
+    menuItems.forEach(item => {
+      const card = document.createElement('article');
+      card.className = 'product-card';
+      card.setAttribute('tabindex', '0');
+      card.setAttribute('aria-label', `${item.name}, harga ${formatIDR(item.price)}`);
+
+      card.innerHTML = `
+        <img src="${item.imgSrc}" alt="${item.alt}" />
+        <div class="product-details">
+          <h3 class="product-name">${item.name}</h3>
+          <p class="product-price">${formatIDR(item.price)}</p>
+          <button class="add-to-cart" data-id="${item.id}">Tambah ke Keranjang</button>
+        </div>
+      `;
+      productGrid.appendChild(card);
+    });
+    attachAddToCartListeners();
+  }
+
+  // Attach click events to add-to-cart buttons
+  function attachAddToCartListeners() {
+    const buttons = document.querySelectorAll('.add-to-cart');
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = parseInt(btn.getAttribute('data-id'));
+        addToCart(id);
+      });
+    });
+  }
+
+  // Add product to cart or increment quantity
+  function addToCart(productId) {
+    const product = menuItems.find(item => item.id === productId);
+    if (!product) return;
+
+    const cartItem = cart.find(item => item.id === productId);
+    if (cartItem) {
+      cartItem.quantity++;
+    } else {
+      cart.push({...product, quantity: 1});
+    }
+    updateCartDisplay();
+  }
+
+  // Update cart icon, cart item list and totals
+  function updateCartDisplay() {
+    if (cart.length === 0) {
+      cartCount.style.display = 'none';
+      cartEmptyMsg.style.display = 'block';
+      cartItemList.style.display = 'none';
+      orderSummary.style.display = 'none';
+    } else {
+      cartCount.style.display = 'flex';
+      const itemCount = cart.reduce((acc, item) => acc + item.quantity, 0);
+      cartCount.textContent = itemCount;
+
+      cartEmptyMsg.style.display = 'none';
+      cartItemList.style.display = 'block';
+      orderSummary.style.display = 'flex';
+
+      renderCartItems();
+      updateSummary();
+    }
+  }
+
+  // Render cart items in the cart section
+  function renderCartItems() {
+    cartItemList.innerHTML = '';
+    cart.forEach(item => {
+      const itemTotal = item.price * item.quantity;
+
+      const cartItem = document.createElement('article');
+      cartItem.className = 'cart-item';
+      cartItem.setAttribute('tabindex', '0');
+      cartItem.setAttribute('aria-label', `${item.name}, harga satuan ${formatIDR(item.price)}, jumlah ${item.quantity}, total ${formatIDR(itemTotal)}`);
+
+      cartItem.innerHTML = `
+        <img src="${item.imgSrc}" alt="${item.alt}" class="cart-item-img" />
+        <div class="cart-item-details">
+          <h3 class="cart-item-name">${item.name}</h3>
+          <p class="cart-item-price">Harga: ${formatIDR(item.price)}</p>
+          <div class="quantity-control" role="group" aria-label="Atur jumlah ${item.name}">
+            <button class="quantity-btn" aria-label="Kurangi jumlah ${item.name}" data-action="decrement" data-id="${item.id}">−</button>
+            <input type="text" class="quantity-input" aria-live="polite" aria-atomic="true" aria-label="Jumlah ${item.name}" value="${item.quantity}" data-id="${item.id}" readonly />
+            <button class="quantity-btn" aria-label="Tambah jumlah ${item.name}" data-action="increment" data-id="${item.id}">+</button>
+          </div>
+        </div>
+        <p class="cart-item-total">${formatIDR(itemTotal)}</p>
+      `;
+      cartItemList.appendChild(cartItem);
+    });
+    attachQuantityListeners();
+  }
+
+  // Update subtotal, tax, total
+  function updateSummary() {
+    const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const tax = Math.round(subtotal * 0.10);
+    const total = subtotal + tax;
+
+    subtotalEl.textContent = formatIDR(subtotal);
+    taxEl.textContent = formatIDR(tax);
+    totalEl.textContent = formatIDR(total);
+  }
+
+  // Attach quantity increment/decrement buttons
+  function attachQuantityListeners() {
+    const decrementBtns = document.querySelectorAll('button[data-action="decrement"]');
+    const incrementBtns = document.querySelectorAll('button[data-action="increment"]');
+
+    decrementBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = parseInt(btn.dataset.id);
+        const item = cart.find(i => i.id === id);
+        if (!item) return;
+        if (item.quantity > 1) {
+          item.quantity--;
+          updateCartDisplay();
+        } else {
+          removeFromCart(id);
+        }
+      });
+    });
+
+    incrementBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = parseInt(btn.dataset.id);
+        const item = cart.find(i => i.id === id);
+        if (!item) return;
+        item.quantity++;
+        updateCartDisplay();
+      });
+    });
+  }
+
+  // Remove item from cart when quantity reaches 0
+  function removeFromCart(productId) {
+    cart = cart.filter(item => item.id !== productId);
+    updateCartDisplay();
+  }
+
+  // Checkout button handler
+  checkoutBtn.addEventListener('click', () => {
+    if (cart.length === 0) {
+      alert('Keranjang kosong! Silakan tambahkan produk terlebih dahulu.');
+      return;
+    }
+    alert(`Terima kasih atas pembelian Anda!\nTotal: ${totalEl.textContent}`);
+    cart = [];
+    updateCartDisplay();
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  });
+
+  // Cart icon toggles the cart summary visibility on small screens
+  cartIcon.addEventListener('click', () => {
+    if (orderSummary.style.display === 'flex') {
+      orderSummary.style.display = 'none';
+      cartItemList.style.display = 'none';
+      cartEmptyMsg.style.display = 'block';
+    } else {
+      if (cart.length > 0) {
+        orderSummary.style.display = 'flex';
+        cartItemList.style.display = 'block';
+        cartEmptyMsg.style.display = 'none';
+      }
+    }
+  });
+  cartIcon.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      cartIcon.click();
+    }
+  });
+  
+  // Initial render
+  renderProducts();
+  updateCartDisplay();
+
+</script>
+
+</body>
+</html>
+
